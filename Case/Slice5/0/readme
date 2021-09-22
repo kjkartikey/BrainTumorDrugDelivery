@@ -1,4 +1,4 @@
 The values of different parameters at each voxel has been defined in this 0 sub-directory.
 The values of ktrans, por, and pvf were obtained from DCE-MRI data directly.
 The categorisation of voxels in terms of normal tissue and brain tumor tissue was done by analysing ktrans data.
-Then the values of other parameters for normal and brain tumor tissue were defined accordingly.
+Then the values of other parameters for normal and brain tumor tissue were imported accordingly.
