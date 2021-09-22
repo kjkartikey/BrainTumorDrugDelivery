@@ -1,0 +1,3 @@
+The information to generate the mesh has been specified in blockMeshDict file.
+The slice was divided into 62 parts in x-dir and 104 parts in y-dir.
+Size of each voxel is (0.9375 x 0.9375 x 6)mm
