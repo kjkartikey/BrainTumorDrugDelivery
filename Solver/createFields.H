@@ -273,6 +273,34 @@ volScalarField pvf
     mesh
 );
 
+Info << "Reading field Vtissue\n" << endl;
+volScalarField Vtissue
+(
+    IOobject
+    (
+        "Vtissue",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field Vcell\n" << endl;
+volScalarField Vcell
+(
+    IOobject
+    (
+        "Vcell",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
 IOdictionary cpDict
 (
     IOobject
@@ -325,6 +353,16 @@ dimensionedScalar beta
 dimensionedScalar gamma
 (
     transportProperties.lookup("gamma")
+);
+
+dimensionedScalar r1
+(
+    transportProperties.lookup("r1")
+);
+
+dimensionedScalar l
+(
+    transportProperties.lookup("l")
 );
 #   include "createPhi.H" 
 
