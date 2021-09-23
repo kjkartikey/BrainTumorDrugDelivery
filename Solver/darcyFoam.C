@@ -124,6 +124,9 @@ int main(int argc, char* argv[])
           - fvm::Sp(gamma * pvf * pvf, pvf)
           + fvm::Sp(kak * Caa, pvf)
          );
+      
+        //porosity update
+        por = por * (Vtissue - Vcell - 2 * constant::mathematical::pi * r1 * r1 * l) / (Vtissue - Vcell - constant::mathematical::pi * r1 * r1 * l);
 
             runTime.write();
 
