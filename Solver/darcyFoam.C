@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
          );
       
         //porosity update
-        por = por * (Vtissue - Vcell - 2 * constant::mathematical::pi * r1 * r1 * l) / (Vtissue - Vcell - constant::mathematical::pi * r1 * r1 * l);
+        por = por * (Vtissue - Vcell - 2 * constant::mathematical::pi * r1 * r1 * l) / (Vtissue - Vcell - constant::mathematical::pi * pvf * pvf * r1 * r1 * l);
 
             runTime.write();
 
