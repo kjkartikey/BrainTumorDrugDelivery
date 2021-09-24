@@ -69,12 +69,13 @@ int main(int argc, char* argv[])
 
             solve
             (
-                  fvm::laplacian(K, p)
-                - fvm::Sp((ktrans / ktransavg) * (hc * sapuv), p)
-                - fvm::Sp((lfc), p)
+                fvm::laplacian(K, p)
+                - (1 - infSite) * fvm::Sp((ktrans / ktransavg) * (hc * sapuv), p)
+                - (1 - infSite) * fvm::Sp((lfc), p)
                 ==
-                -((ktrans / ktransavg) * (hc * sapuv) * (Peff))
-                - (lfc * lp)
+                - (1 - infSite) * ((ktrans / ktransavg) * (hc * sapuv) * (Peff))
+                - (1 - infSite) * (lfc * lp)
+                - infSite * (Q / Vinf)
             );
 
         }
@@ -126,7 +127,7 @@ int main(int argc, char* argv[])
          );
       
         //porosity update
-        por = por * (Vtissue - Vcell - 2 * constant::mathematical::pi * r1 * r1 * l) / (Vtissue - Vcell - constant::mathematical::pi * pvf * pvf * r1 * r1 * l);
+       por = por * ((Vtissue - Vcell - 2 * constant::mathematical::pi * pvf*pvf * r1*r1 * l) / (Vtissue - Vcell - constant::mathematical::pi * r1*r1 * l));
 
             runTime.write();
 
