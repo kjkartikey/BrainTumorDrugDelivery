@@ -45,6 +45,14 @@ solvers
         tolerance       1e-07;
         relTol          0;
     }
+    
+    pvf
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-07;
+        relTol          0;
+    }
 }
 
 SIMPLE
