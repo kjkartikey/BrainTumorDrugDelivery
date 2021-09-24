@@ -6467,7 +6467,7 @@ internalField   nonuniform List<scalar>
   2.10486707790516e-13
   2.10486707790516e-13
   2.10486707790516e-13
-)
+);
 
 boundaryField
 {
