@@ -29,7 +29,7 @@ divSchemes
 {
     default         none;
 
-    div(phi,C)      bounded Gauss upwind;
+    div(phi,Caa)      bounded Gauss upwind;
 }
 
 laplacianSchemes
