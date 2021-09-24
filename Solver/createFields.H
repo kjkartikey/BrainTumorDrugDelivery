@@ -301,6 +301,21 @@ volScalarField Vcell
     mesh
 );
 
+Info << "Reading field infSite\n" << endl;
+volScalarField infSite
+(
+    IOobject
+    (
+        "infSite",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+/*
 IOdictionary cpDict
 (
     IOobject
@@ -317,7 +332,7 @@ IOdictionary cpDict
 
 autoPtr<Function1<scalar> > cpValue(Function1<scalar>::New("cpValue", cpDict));
 
-dimensionedScalar Cp("Cp", dimensionSet(0, -3, 0, 0, 1, 0, 0), 0.0);
+dimensionedScalar Cp("Cp", dimensionSet(0, -3, 0, 0, 1, 0, 0), 0.0);*/
 
 
 dimensionedScalar ktransavg
@@ -363,6 +378,16 @@ dimensionedScalar r1
 dimensionedScalar l
 (
     transportProperties.lookup("l")
+);
+
+dimensionedScalar Q
+(
+    transportProperties.lookup("Q")
+);
+
+dimensionedScalar Vinf
+(
+    transportProperties.lookup("Vinf")
 );
 #   include "createPhi.H" 
 
