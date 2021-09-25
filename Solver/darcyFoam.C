@@ -25,6 +25,8 @@ Application
     darcyFoam
 
 Description
+    Solves for IFP, IFV, Drug Bioavailability and Microvasulature density
+    variation scale.
 
 \*---------------------------------------------------------------------------*/
 
@@ -37,21 +39,17 @@ Description
 
 int main(int argc, char* argv[])
 {
-
-
-
 #include "setRootCase.H"
 
 #include "createTime.H"
 #include "createMesh.H"
 #include "createFields.H"
 
-    simpleControl simple(mesh);
+simpleControl simple(mesh);
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-
-    Info << "\nCalculating PRESSURE distribution\n" << endl;
+Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature density variation scale.\n" << endl;
 
 #include "CourantNo.H"
 
@@ -59,13 +57,8 @@ int main(int argc, char* argv[])
     {
         Info << "Time = " << runTime.timeName() << nl << endl;
 
-
-
-
         while (simple.correctNonOrthogonal())
         {
-
-
             solve
             (
                 fvm::laplacian(K, p)
@@ -76,7 +69,6 @@ int main(int argc, char* argv[])
                 - (1 - infSite) * (lfc * lp)
                 - infSite * (Q / Vinf)
             );
-
         }
 
         U = -K * fvc::grad(p);
@@ -128,11 +120,11 @@ int main(int argc, char* argv[])
         //porosity update
        por = por * ((Vtissue - Vcell - 2 * constant::mathematical::pi * pvf*pvf * r1*r1 * l) / (Vtissue - Vcell - constant::mathematical::pi * r1*r1 * l));
 
-            runTime.write();
+       runTime.write();
 
-            Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-                << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-                << nl << endl;
+       Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+            << nl << endl;
     }
 
     Info << "End\n" << endl;
