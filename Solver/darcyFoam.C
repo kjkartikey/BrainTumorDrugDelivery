@@ -25,7 +25,6 @@ Application
     darcyFoam
 
 Description
-    Solves a simple Laplace equation, e.g. for thermal diffusion in a solid.
 
 \*---------------------------------------------------------------------------*/
 
