@@ -259,6 +259,20 @@ volScalarField Caa
     mesh
 );
 
+Info << "Reading field Daa\n" << endl;
+volScalarField Daa
+(
+    IOobject
+    (
+        "Daa",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
 Info << "Reading field pvf\n" << endl;
 volScalarField pvf
 (
@@ -338,11 +352,6 @@ dimensionedScalar Cp("Cp", dimensionSet(0, -3, 0, 0, 1, 0, 0), 0.0);*/
 dimensionedScalar ktransavg
 (
     transportProperties.lookup("ktransavg")
-);
-
-dimensionedScalar Daa
-(
-    transportProperties.lookup("Daa")
 );
 
 dimensionedScalar kaae
