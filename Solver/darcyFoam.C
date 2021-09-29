@@ -35,7 +35,7 @@ Description
 #include "IOMRFZoneList.H"
 #include "IOporosityModelList.H"     
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
 
 int main(int argc, char* argv[])
 {
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 
 simpleControl simple(mesh);
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
 
 Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature density variation scale.\n" << endl;
 
@@ -98,16 +98,16 @@ Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature densit
         //      I = (ktrans*(Cp-((1/por)*C)));
          //     L = (1/por)*fvc::div(phi, C);
 
-              // equation 6
+        // Drug Bioavailabilty
         solve
         (
             fvm::ddt(Caa)           
           - fvm::laplacian(Daa, Caa)
-          - fvm::div(phi, Caa)
+          + fvm::div(phi, Caa)
           + fvm::Sp(kaae, Caa)
         );
 
-        // equation 7
+        // Drug Bioavailabilty
         solve
         (
             fvm::ddt(pvf)
@@ -117,9 +117,18 @@ Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature densit
           + fvm::Sp(kak * Caa, pvf)
          );
       
-        //porosity update
-       por = por * ((Vtissue - Vcell - 2 * constant::mathematical::pi * pvf*pvf * r1*r1 * l) / (Vtissue - Vcell - constant::mathematical::pi * r1*r1 * l));
-
+      
+      //* * * * * * * * * * * * * * * * * * * * * * * Properties Update * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
+      
+       Daa = Daa / por;
+      
+       por = por * ((Vtissue - Vcell - 2 * constant::mathematical::pi * pvf*pvf * r1*r1 * l) /
+                    (Vtissue - Vcell - constant::mathematical::pi * r1*r1 * l));
+       
+       Daa = Daa * por;
+      
+      //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
+      
        runTime.write();
 
        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
