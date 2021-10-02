@@ -12,8 +12,6 @@ IOdictionary transportProperties
     )
 );
 
-
-
 Info << "Reading field p\n" << endl;
 volScalarField p
 (
@@ -43,21 +41,63 @@ volVectorField U
     mesh
 );
 
-
-/*Info << "Reading field C\n" << endl;
-volScalarField C
+Info << "Reading field Caa\n" << endl;
+volScalarField Caa
 (
     IOobject
     (
-        "C",
+        "Caa",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
         IOobject::AUTO_WRITE
     ),
     mesh
-);*/
+);
 
+Info << "Reading field pvf\n" << endl;
+volScalarField pvf
+(
+    IOobject
+    (
+        "pvf",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field por\n" << endl;
+volScalarField por
+(
+    IOobject
+    (
+        "por",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field ktrans\n" << endl;
+volScalarField ktrans
+(
+    IOobject
+    (
+        "ktrans",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+/**************************************************/
 
 Info << "Reading field K\n" << endl;
 volScalarField K
@@ -130,49 +170,6 @@ volScalarField lp
     mesh
 );
 
-
-/*Info<< "Reading field J\n" << endl;
-    volScalarField J
-    (
-        IOobject
-        (
-            "J",
-            runTime.timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    );
-
-  Info<< "Reading field I\n" << endl;
-    volScalarField I
-    (
-        IOobject
-        (
-            "I",
-            runTime.timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    );
-
-   Info<< "Reading field L\n" << endl;
-    volScalarField L
-    (
-        IOobject
-        (
-            "L",
-            runTime.timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    );*/
-
 Info << "Reading field Peff\n" << endl;
 volScalarField Peff
 (
@@ -187,98 +184,12 @@ volScalarField Peff
     mesh
 );
 
-Info << "Reading field por\n" << endl;
-volScalarField por
-(
-    IOobject
-    (
-        "por",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
-
-Info << "Reading field D\n" << endl;
-volScalarField D
-(
-    IOobject
-    (
-        "D",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
-
-Info << "Reading field ktrans\n" << endl;
-volScalarField ktrans
-(
-    IOobject
-    (
-        "ktrans",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
-/*Info << "Reading field Z\n" << endl;
-volScalarField Z
-(
-    IOobject
-    (
-        "Z",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);*/
-
-Info << "Reading field Caa\n" << endl;
-volScalarField Caa
-(
-    IOobject
-    (
-        "Caa",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
 Info << "Reading field Daa\n" << endl;
 volScalarField Daa
 (
     IOobject
     (
         "Daa",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
-Info << "Reading field pvf\n" << endl;
-volScalarField pvf
-(
-    IOobject
-    (
-        "pvf",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
@@ -329,25 +240,75 @@ volScalarField infSite
     mesh
 );
 
-/*
-IOdictionary cpDict
+Info << "Reading field alpha\n" << endl;
+volScalarField alpha
 (
     IOobject
     (
-        "cpDict",
-        mesh.time().constant(),
+        "alpha",
+        runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
-        IOobject::NO_WRITE
-    )
+        IOobject::AUTO_WRITE
+    ),
+    mesh
 );
 
+Info << "Reading field beta\n" << endl;
+volScalarField beta
+(
+    IOobject
+    (
+        "beta",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
 
+Info << "Reading field gamma\n" << endl;
+volScalarField gamma
+(
+    IOobject
+    (
+        "gamma",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
 
-autoPtr<Function1<scalar> > cpValue(Function1<scalar>::New("cpValue", cpDict));
+Info << "Reading field r1\n" << endl;
+volScalarField r1
+(
+    IOobject
+    (
+        "r1",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
 
-dimensionedScalar Cp("Cp", dimensionSet(0, -3, 0, 0, 1, 0, 0), 0.0);*/
-
+Info << "Reading field l\n" << endl;
+volScalarField l
+(
+    IOobject
+    (
+        "l",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
 
 dimensionedScalar ktransavg
 (
@@ -364,34 +325,14 @@ dimensionedScalar kak
     transportProperties.lookup("kak")
 );
 
-dimensionedScalar alpha
-(
-    transportProperties.lookup("alpha")
-);
-
-dimensionedScalar beta
-(
-    transportProperties.lookup("beta")
-);
-
-dimensionedScalar gamma
-(
-    transportProperties.lookup("gamma")
-);
-
-dimensionedScalar r1
-(
-    transportProperties.lookup("r1")
-);
-
-dimensionedScalar l
-(
-    transportProperties.lookup("l")
-);
-
 dimensionedScalar Q
 (
     transportProperties.lookup("Q")
+);
+
+dimensionedScalar C_infSite
+(
+    transportProperties.lookup("C_infSite")
 );
 
 dimensionedScalar Vinf
