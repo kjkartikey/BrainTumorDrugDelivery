@@ -102,9 +102,9 @@ Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature densit
         solve
         (
             fvm::ddt(Caa)           
-          - fvm::laplacian(Daa * por, Caa)
-          + fvm::div(phi, Caa)
-          + fvm::Sp(kaae, Caa)
+          - (1 - infSite) * fvm::laplacian(Daa * por, Caa)
+          + (1 - infSite) * fvm::div(phi, Caa)
+          + (1 - infSite) * fvm::Sp(kaae, Caa)
         );
 
         // Drug Bioavailabilty
