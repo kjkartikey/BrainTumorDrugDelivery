@@ -46,7 +46,7 @@ solvers
         relTol          0;
     }
     
-    pvf
+    vsmd
     {
         solver          PBiCG;
         preconditioner  DILU;
