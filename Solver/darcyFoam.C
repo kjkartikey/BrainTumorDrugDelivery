@@ -93,17 +93,19 @@ Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature densit
         // Drug Bioavailabilty
         solve
         (
-            fvm::ddt(pvf)
-          - fvm::Sp(alpha, pvf)
-          - fvm::Sp(beta * pvf, pvf)
-          - fvm::Sp(gamma * pvf * pvf, pvf)
-          + fvm::Sp(kak * (Caa / C_infSite), pvf)
+            fvm::ddt(vsmd)
+          - fvm::Sp(alpha, vsmd)
+          - fvm::Sp(beta * vsmd, vsmd)
+          - fvm::Sp(gamma * vsmd * vsmd, vsmd)
+          + fvm::Sp(kak * (Caa / C_infSite), vsmd)
          );
       
       
       //* * * * * * * * * * * * * * * * * * * * * * * Properties Update * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
       
-      por = 1 - (Vcell / Vtissue) - pvf;
+      pvf = (vsmd * vsmd) * pvf;
+      
+      por = 1 - pvf - (Vcell / Vtissue);
       
       //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
       
