@@ -1,1 +1,9 @@
-Grid Independence Test
+Grid Independence Test for slice5 case by mesh refinement.
+
+Every cell is subdivided into four quadrants
+and the values of parameters in these quadrants
+is set same as that of parent cell.
+
+Flow is simulated for same time for both refined and unrefined mesh
+and difference in parameters after simulation is analyzed between them.
+
