@@ -55,12 +55,12 @@ volScalarField Caa
     mesh
 );
 
-Info << "Reading field vsmd\n" << endl;
-volScalarField vsmd
+Info << "Reading field psi\n" << endl;
+volScalarField psi
 (
     IOobject
     (
-        "vsmd",
+        "psi",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
