@@ -46,7 +46,7 @@ solvers
         relTol          0;
     }
     
-    vsmd
+    psi
     {
         solver          PBiCG;
         preconditioner  DILU;
