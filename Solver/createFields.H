@@ -26,13 +26,26 @@ volScalarField p
     mesh
 );
 
-
 Info << "Reading field U\n" << endl;
 volVectorField U
 (
     IOobject
     (
         "U",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field Cf\n" << endl;
+volScalarField Cf
+(
+    IOobject
+    (
+        "Cf",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
@@ -111,8 +124,6 @@ volScalarField ktrans
     mesh
 );
 
-/**************************************************/
-
 Info << "Reading field K\n" << endl;
 volScalarField K
 (
@@ -126,7 +137,6 @@ volScalarField K
     ),
     mesh
 );
-
 
 Info << "Reading field hc\n" << endl;
 volScalarField hc
@@ -212,48 +222,6 @@ volScalarField Daa
     mesh
 );
 
-Info << "Reading field Vtissue\n" << endl;
-volScalarField Vtissue
-(
-    IOobject
-    (
-        "Vtissue",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
-Info << "Reading field Vcell\n" << endl;
-volScalarField Vcell
-(
-    IOobject
-    (
-        "Vcell",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
-Info << "Reading field infSite\n" << endl;
-volScalarField infSite
-(
-    IOobject
-    (
-        "infSite",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
 Info << "Reading field alpha\n" << endl;
 volScalarField alpha
 (
@@ -296,12 +264,12 @@ volScalarField gamma
     mesh
 );
 
-Info << "Reading field r1\n" << endl;
-volScalarField r1
+Info << "Reading field Vcell\n" << endl;
+volScalarField Vcell
 (
     IOobject
     (
-        "r1",
+        "Vcell",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
@@ -310,12 +278,96 @@ volScalarField r1
     mesh
 );
 
-Info << "Reading field l\n" << endl;
-volScalarField l
+Info << "Reading field Vtissue\n" << endl;
+volScalarField Vtissue
 (
     IOobject
     (
-        "l",
+        "Vtissue",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field infSite\n" << endl;
+volScalarField infSite
+(
+    IOobject
+    (
+        "infSite",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field w\n" << endl;
+volScalarField w
+(
+    IOobject
+    (
+        "w",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field kb\n" << endl;
+volScalarField kb
+(
+    IOobject
+    (
+        "kb",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field Ustar\n" << endl;
+volVectorField Ustar
+(
+    IOobject
+    (
+        "Ustar",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field Dstar\n" << endl;
+volScalarField Dstar
+(
+    IOobject
+    (
+        "Dstar",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info << "Reading field kstar\n" << endl;
+volScalarField kstar
+(
+    IOobject
+    (
+        "kstar",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
@@ -353,5 +405,45 @@ dimensionedScalar Vinf
 (
     transportProperties.lookup("Vinf")
 );
-#   include "createPhi.H" 
 
+dimensionedScalar Df
+(
+    transportProperties.lookup("Df")
+);
+
+dimensionedScalar ke
+(
+    transportProperties.lookup("ke")
+);
+
+dimensionedScalar Cinf
+(
+    transportProperties.lookup("Cinf")
+);
+
+dimensionedScalar Pics_ecs
+(
+    transportProperties.lookup("Pics_ecs")
+);
+
+dimensionedScalar Pcm_ecs
+(
+    transportProperties.lookup("Pcm_ecs")
+);
+
+dimensionedScalar Kecs
+(
+    transportProperties.lookup("Kecs")
+);
+
+dimensionedScalar Kics
+(
+    transportProperties.lookup("Kics")
+);
+
+dimensionedScalar P
+(
+    transportProperties.lookup("P")
+);
+
+#   include "createPhi.H" 
