@@ -1,0 +1,43 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+transportModel  Newtonian;
+
+nu        nu [0 2 -1 0 0 0 0] 1.5e-05;
+rho				rho	[1 -3 0 0 0 0 0]	1;
+
+Q         Q [0 3 -1 0 0 0 0] 1.67e-11;
+C_infSite C_infSite [0 -3 0 0 1 0 0] 7.25e-5;
+Vinf      Vinf [0 3 0 0 0 0 0] 5.2734375e-9;
+
+kaae       kaae [0 0 -1 0 0 0 0] 1.2e-5;
+kak       kak [ 0 0 -1 0 0 0 0] 2.0e-6;
+
+//Transport Propertoes of Paclitaxel
+Df        Df [0 2 -1 0 0 0 0] 9.0e-10;
+ke        ke [0 0 -1 0 0 0 0] 6.8e-7;
+Cinf       Cinf [0 -3 0 0 1 0 0] 7.0e-6;
+Pics_ecs  Pics_ecs [0 0 0 0 0 0 0] 1.0;
+Pcm_ecs   Pcm_ecs [0 0 0 0 0 0 0] 3162.3;
+Kecs      Kecs [0 0 0 0 0 0 0] 5.1;
+Kics      Kics [0 0 0 0 0 0 0] 5.1;
+P         P [0 1 -1 0 0 0 0] 7.0E-9;
+
+
+ktransavg		ktransavg	[0 0 -1 0 0 0 0]	0.001316551;
+
+
+// ************************************************************************* //
