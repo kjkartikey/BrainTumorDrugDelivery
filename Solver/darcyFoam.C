@@ -5,12 +5,14 @@
     \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
+
 Application
     darcyFoam
 
 Description
-    Solves for IFP, IFV, Drug Bioavailability and Microvasulature density
-    variation scale.
+    Solves for pressure & velocity fields and other variables 
+    for drug delivery in brain tumor.
+
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
@@ -18,23 +20,36 @@ Description
 #include "IOMRFZoneList.H"
 #include "IOporosityModelList.H"     
 
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char* argv[])
 {
 #include "setRootCase.H"
-
 #include "createTime.H"
 #include "createMesh.H"
 #include "createFields.H"
 
 simpleControl simple(mesh);
-
-//* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
-
-Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature density variation scale.\n" << endl;
-
 #include "CourantNo.H"
+
+ // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
+
+ // Finding Infusion Site
+  
+ scalar maxInfSite = -GREAT;
+ label maxCellI;
+
+ forAll(infSite, cellI)
+ {
+     if (maxInfSite < infSite[cellI])
+     {
+         maxInfSite = infSite[cellI];
+         maxCellI = cellI;
+     }
+
+ // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
+
+ Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasculature Density Variation Scale\n" << endl;
 
     while (simple.loop())
     {
@@ -56,41 +71,42 @@ Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature densit
 
         U = -K * fvc::grad(p);
 
-        phi = linearInterpolate(U) & mesh.Sf();
+        //Cytotoxic Drug Transport Equations
 
-        /*forAll(Z, i)
-        {
-            Z[i] = mag(U[i]);
-        }
+        w = por * (1 + Kecs) + (Vcell / Vtissue) * Pics_ecs * (1 + Kics) + (1 - por - (Vcell / Vtissue)) * Pcm_ecs;
+        kb = psi * ktrans;
 
-        Cp.value() = cpValue->value(mesh.time().timeOutputValue());
+        Ustar = (por / w) * U;
+        phi = linearInterpolate(Ustar) & mesh.Sf();
+
+        Dstar = (por / w) * Df;
+        kstar = (por * kb + (por + Pics_ecs * (Vcell / Vtissue)) * ke) / w;
 
         solve
         (
-            fvm::ddt(C)
-            + (1 / por) * fvm::div(phi, C)
-            - fvm::laplacian(D, C)
-            + fvm::Sp((ktrans / por), C)
-            + fvm::Sp((lfc / por) * (p - lp), C)
-            ==
-            (ktrans * Cp)
+              fvm::ddt(Cf)
+            - fvm::laplacian(Dstar, Cf)
+            + fvm::div(phi, Cf)
+            + fvm::Sp(kstar, Cf)
+        );
 
-        );*/
+        Cf[maxCellI] = 7.0e-6 + Cf[maxCellI];   //For Continuous Infusion
 
-        //J = fvc::laplacian(D,C);
-        //      I = (ktrans*(Cp-((1/por)*C)));
-         //     L = (1/por)*fvc::div(phi, C);
+        // Anti-angiogenic Drig Transport equations
 
-        // Drug Bioavailabilty
+       phi = linearInterpolate(U) & mesh.Sf();
+
         solve
         (
             fvm::ddt(Caa)           
-          - (1 - infSite) * fvm::laplacian(Daa * por, Caa)
-          + (1 - infSite) * fvm::div(phi, Caa)
-          + (1 - infSite) * fvm::Sp(kaae, Caa)
+          - fvm::laplacian(Daa * por, Caa)
+          + fvm::div(phi, Caa)
+          + fvm::Sp(kaae, Caa)
         );
 
-        // Drug Bioavailabilty
+        Caa[maxCellI] = 7.25e-5 + Caa[maxCellI];   //For Continuous Infusion
+
+        // equation 7
         solve
         (
             fvm::ddt(psi)
@@ -99,28 +115,25 @@ Info << "\nCalculating IFP, IFV, Drug Bioavailability and Microvasulature densit
           - fvm::Sp(gamma * psi * psi, psi)
           + fvm::Sp(kak * (Caa / C_infSite), psi)
          );
-      
-      
-      //* * * * * * * * * * * * * * * * * * * * * * * Properties Update * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
-      
-      pvf = (psi * psi) * pvf;
-      
-      por = 1 - pvf - (Vcell / Vtissue);
-      
-      //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *//
-      
-       runTime.write();
 
-       Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+        // Plasma Volume Fraction and Porosity Update
+
+        pvf = (psi * psi) * pvf;
+
+        por = 1 - pvf - (Vcell / Vtissue);
+
+        // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+        runTime.write();
+
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
     }
 
     Info << "End\n" << endl;
 
     return 0;
 }
-
-
-
+  
 // ************************************************************************* //
