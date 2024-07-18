@@ -3,6 +3,11 @@ Numerical modeling of convection enhanced delivery (CED) in combination treatmen
 
 A 3D computational model of human brain tumor is developed using dynamic contrast enhanced magnetic resonance imaging (DCE-MRI) data into a voxelized porous media model. This model has been made taking into account realistic transport and perfusion kinetics parameters along with realistic heterogeneous tumor vasculature and hence it is patient specific. The flow is simulated in OpenFOAM The model is then used for analysing the effects of different tumor properties on the drug delivery, which can be used to maximize drug efficacy. Effect of antiangiogenic agents in combination with cytotoxic drugs is also studied which can be used for the selection of best combination of drugs for a specific patient.
 
+## Published paper corresponding to this research - 
+## Ajay Bhandhari, Kartikey Jaiswal, Wenbo Zhan, A.Singh, (2022) Convection-Enhanced Delivery of Antiangiogenic Drugs and Liposomal Cytotoxic Drugs to Heterogeneous Brain Tumor for Combination Therapy 
+
+## (https://doi.org/10.3390/cancers14174177)
+
 Reference Papers - 
 1. Wenbo Zhan, (2020) Convection enhanced delivery of anti-angiogenic and cytotoxic agents in combination therapy against brain tumour.
    (https://doi.org/10.1016/j.ejps.2019.105094)
